@@ -15,13 +15,22 @@ const AddEdit = () => {
     const{title, task}= state;
 
     const navigate = useNavigate();
+
+    const {id} =useParams();
+
+    useEffect(() =>{
+        axios.get(`http://localhost:3000/mywork/${id}`)
+        .then((resp) => setState({...resp.data[0]}))
+         },[id]);
  
     const handleSubmit=(e) =>{
         e.preventDefault();
         if(!title || ! task){
             toast.error("Please provide value into each input field");
         } else{
-            axios.post("http://localhost:3000/mywork",{
+            if(!id){
+                axios
+                .post("http://localhost:3000/mywork",{
                 title,
                 task,
             })
@@ -29,8 +38,22 @@ const AddEdit = () => {
                 setState({title: "", task:""})
             })
             .catch((err)=> toast.error(err.response.data))
-            setTimeout(()=>
-                navigate("/"),500);
+             toast.success("Contact Added Successfully")
+        }else{
+            axios
+            .put(`http://localhost:3000/mywork`,{
+                title,
+                task,
+                id,
+            })
+            .then(()=>{
+                setState({title: "", task:""})
+            })
+            .catch((err)=> toast.error(err.response.data))
+             toast.success("Contact Updated Successfully")
+
+        }
+            setTimeout(()=>navigate("/"),500);
      }
     }
 
@@ -56,6 +79,7 @@ const AddEdit = () => {
                 id="title"
                 name="title"
                 placeholder="Your Title...?"
+                value={title ||""}
     
                 onChange={handleInputChange}
                 />
@@ -65,11 +89,12 @@ const AddEdit = () => {
                 id="task"
                 name="task"
                 placeholder="Your Task...?"
+                value={task || ""}
             
                 onChange={handleInputChange}
                 />
             
-                 <input type="submit"/>
+                 <input type="submit" value={id ? "Update" : "Save"}/>
                  <Link to="/">
                     <input type="button" value="Go Back"/>
                  </Link>
