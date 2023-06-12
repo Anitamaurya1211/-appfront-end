@@ -50,7 +50,7 @@ const AddEdit = () => {
                 setState({title: "", task:""})
             })
             .catch((err)=> toast.error(err.response.data))
-             toast.success("Contact Updated Successfully")
+             toast.success(" Task Updated Successfully")
 
         }
             setTimeout(()=>navigate("/"),500);

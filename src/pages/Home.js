@@ -16,16 +16,16 @@ const Home = ()=>{
     },[]);
 
     const deleteContact =(id) => {
-        if(window.confirm("Are you sure that you wanted to delete that contact?")){
+        if(window.confirm("Are you sure that you wanted to delete that Task?")){
             axios.delete(`http://localhost:3000/mywork/${id}`);
-            toast.success("Contact Deleted Successfully");
+            toast.success("Task Deleted Successfully");
             setTimeout(()=> loadData (), 500);
         }
     }
     return(
-        <div style={{marginTop: "150px"}}>
+        <div style={{marginTop: "170px"}}>
             <Link to="/addContact">
-            <button className="btn btn-contact">Add Contact</button>
+            <button className="btn btn-contact">Add Task</button>
             </Link>
         <table className="styled-table">
             <thead>
@@ -34,8 +34,6 @@ const Home = ()=>{
                     <th style={{textAlign: "center"}}>Title</th>
                     <th style={{textAlign: "center"}}>Task</th>
                     <th style={{textAlign: "center"}}>Action</th>
-                    
-        
                 </tr>
             </thead>
             <tbody>
